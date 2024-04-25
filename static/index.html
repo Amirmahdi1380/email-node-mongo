@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت نام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+    font-family: 'Tahoma', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 350px; /* Adjusted maximum width */
+    width: 100%;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    width: calc(100% - 24px); /* Adjusted input width */
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    font-size: 16px;
+}
+
+.input-container label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    color: #777;
+    font-size: 16px;
+    transition: top 0.3s, font-size 0.3s, color 0.3s;
+}
+
+.input-container input:focus {
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+    top: 6px;
+    left: 8px;
+    font-size: 12px;
+    color: #555;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.button-container button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-container button:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+    <form method="POST">
+        <h2>فرم ثبت نام</h2>
+        <div class="input-container">
+            <input type="text" name="firstname" id="firstname" required>
+            <label for="firstname">نام</label>
+        </div>
+
+        <div class="input-container">
+            <input type="text" name="lastname" id="lastname" required>
+            <label for="lastname">نام خانوادگی</label>
+        </div>
+
+        <div class="input-container">
+            <input type="email" name="email" id="email" required>
+            <label for="email">ایمیل</label>
+        </div>
+
+        <div class="input-container">
+            <input type="password" name="password" id="password" required>
+            <label for="password">رمز عبور</label>
+        </div>
+
+        <div class="button-container">
+            <button type="submit" id="submitButton">ثبت نام</button>
+        </div>
+    </form>
+    <p class="outh">حساب کاربری دارید؟ <a href="login.html" class="link">ورود</a></p>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#submitButton').click(function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+                var formData = $(this).closest('form').serialize();
+                // Submit form data via AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/signup', // Assuming this is the correct endpoint
+                    data: formData,
+                    success: function(response) {
+                        // Redirect to the login page upon successful sign-up
+                        window.location.href = '/login.html'; // Change this URL if needed
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error responses if needed
+                        console.error(xhr.responseText);
+                      // window.location.href = '/login.html';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

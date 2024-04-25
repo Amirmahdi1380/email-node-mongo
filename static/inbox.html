@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صندوق ورودی</title>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #007bff;
+        }
+
+        .drawer {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .drawer h2 {
+            margin-bottom: 10px;
+        }
+
+        .drawer button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .drawer button:hover {
+            background-color: #0056b3;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .emails {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .email {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .email .sender {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .email .subject {
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .email .body {
+            color: #777;
+        }
+
+        .compose-form {
+            max-width: 600px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .compose-form input[type="text"],
+        .compose-form textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .compose-form button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .compose-form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .search-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-input {
+    
+ height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%; 
+   margin-bottom: 10px;
+}
+
+.search-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <h1>صندوق ورودی</h1>
+    
+    <div class="drawer">
+        <h2>انتخاب عملیات</h2>
+        <form id="searchForm" class="search-form">
+            <input type="text" id="searchQuery" class="search-input" placeholder="جستجوی موضوع یا متن پیام">
+            <button type="submit" class="search-button">&#128269;جستجو</button>
+           
+        </form>
+        <button id="receiveButton">دریافت ایمیل‌ها</button>
+        <button id="sendButton">ارسال ایمیل جدید</button>
+        <button id="sentButton">ایمیل‌های ارسالی</button>
+    </div>
+    <div class="drawer">
+        <h2>فیلتر بر اساس تاریخ</h2>
+        <form id="dateFilterForm">
+            <label for="startDate">از تاریخ:</label>
+            <input type="date" id="startDate" name="startDate">
+            <label for="endDate">تا تاریخ:</label>
+            <input type="date" id="endDate" name="endDate">
+            <button type="submit">&#128269;اعمال فیلتر</button>
+            <button id="logoutButton">&#x274C; خروج</button>
+        </form>
+    </div>
+    
+    <div class="drawer" id="searchDrawer" style="display: none;">
+        <h2>نتایج جستجو</h2>
+        <div id="searchResults"></div>
+    </div>
+    <div class="main-content">
+        
+
+        <div id="searchResults"></div>
+        <div class="emails" id="receiveEmails">
+            <!-- Received emails go here -->
+            <div class="email">
+                <div class="sender">شما هیچ ایمیلی ندارین</div>
+                <div class="receiver">شما هیچ ایمیلی ندارین</div>
+                <div class="subject">موضوع: این یک ایمیل تستی است</div>
+                <div class="body">این یک ایمیل تستی است. لطفاً به آن پاسخ دهید.</div>
+            </div>
+           
+        </div>
+
+        <div class="compose-form" id="sendEmailForm" style="display: none;">
+            <h2>ارسال ایمیل جدید</h2>
+            <form method="POST" id="composeForm">
+                <input type="text" name="receiver" placeholder="گیرنده" required>
+                <input type="text" name="subject" placeholder="موضوع" required>
+                <textarea name="message" rows="5" placeholder="متن ایمیل" required></textarea>
+                <button type="submit">ارسال</button>
+            </form>
+        </div>
+        <div class="emails" id="sentEmails" style="display: none;">
+            <!-- Sent emails go here -->
+            <div class="email">
+                <div class="receiver">گیرنده: John Doe</div>
+                <div class="subject">موضوع: این یک ایمیل ارسالی تستی است</div>
+                <div class="body">این یک ایمیل ارسالی تستی است. لطفاً آن را مشاهده نمایید.</div>
+            </div>
+            <div class="email">
+                <div class="receiver">گیرنده: Jane Smith</div>
+                <div class="subject">موضوع: این یک ایمیل دیگر ارسالی تستی است</div>
+                <div class="body">این یک ایمیل دیگر ارسالی تستی است. لطفاً آن را مشاهده نمایید.</div>
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch received emails
+            function fetchReceivedEmails() {
+                $.get('/emails/inbox', function(emails) {
+                    $('#receiveEmails').empty(); // Clear previous emails
+                    emails.forEach(function(email) {
+                        $('#receiveEmails').append(`
+                            <div class="email">
+                                <div class="sender">فرستنده: ${email.sender}</div>
+                                <div class="receiver">گیرنده: ${email.receiver}</div>
+                                <div class="subject">موضوع: ${email.subject}</div>
+                                <div class="body">${email.message}</div>
+                            </div>
+                        `);
+                    });
+                });
+            }
+            function fetchSentEmails() {
+                $.get('/emails/sent-emails', function(emails) {
+                    $('#sentEmails').empty(); // Clear previous emails
+                    emails.forEach(function(email) {
+                        $('#sentEmails').append(`
+                            <div class="email">
+                                <div class="sender">فرستنده: ${email.sender}</div>
+                                <div class="receiver">گیرنده: ${email.receiver}</div>
+                                <div class="subject">موضوع: ${email.subject}</div>
+                                <div class="body">${email.message}</div>
+                            </div>
+                        `);
+                    });
+                });
+            }
+            $('#searchForm').submit(function(event) {
+    event.preventDefault();
+    const query = $('#searchQuery').val().trim();
+    if (query !== '') {
+        $.post('/emails/search', { query: query }, function(results) {
+            $('#searchResults').empty(); // Clear previous results
+            if (results.length === 0) {
+                // If no search results are found, display a message
+                $('#searchResults').html('<div class="email">نتیجه‌ای یافت نشد.</div>');
+            } else {
+                // Display search results
+                results.forEach(function(email) {
+                    $('#searchResults').append(`
+                        <div class="email">
+                            <div class="sender">Sender: ${email.sender}</div>
+                            <div class="receiver">گیرنده: ${email.receiver}</div>
+                            <div class="subject">Subject: ${email.subject}</div>
+                            <div class="body">${email.message}</div>
+                        </div>
+                    `);
+                });
+            }
+            // Show the search drawer
+            $('#searchDrawer').show();
+        }).fail(function(xhr, status, error) {
+            console.error('Error:', error);
+        });
+    }
+});
+
+    $('#searchQuery').on('input', function() {
+        const query = $(this).val().trim();
+        if (query === '') {
+            // Clear search results and hide search drawer
+            $('#searchResults').empty();
+            $('#searchDrawer').hide();
+        }
+    });
+            $('#composeForm').submit(function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.post('/emails/send', formData, function(response) {
+                    alert('ایمیل با موفقیت ارسال شد');
+                    $('#composeForm')[0].reset(); // Clear the form
+                   // $('#receiveButton').click(); // Switch back to receive emails
+                }).fail(function(xhr, status, error) {
+                    console.log(error);
+                    console.log(xhr.responseText);
+                    alert('خطا در ارسال ایمیل: ' + xhr.responseText);
+                });
+            });
+
+           
+            // Show receive emails by default
+            $('#sentEmails').addClass('active');
+            fetchSentEmails();
+
+            $('#receiveButton').addClass('active');
+            fetchReceivedEmails();
+            
+            // Switch between receiving and sending emails
+            $('#receiveButton').click(function() {
+            $('#receiveButton').addClass('active');
+            $('#sendButton').removeClass('active');
+            $('#sentButton').removeClass('active');
+            $('#receiveEmails').show();
+            $('#sendEmailForm').hide();
+            $('#sentEmails').hide(); // Hide the sent emails section
+        });
+
+        $('#sendButton').click(function() {
+            $('#sendButton').addClass('active');
+            $('#receiveButton').removeClass('active');
+            $('#sentButton').removeClass('active');
+            $('#sendEmailForm').show();
+            $('#receiveEmails').hide();
+            $('#sentEmails').hide(); // Hide the sent emails section
+        });
+
+        $('#sentButton').click(function() {
+            $('#sentButton').addClass('active');
+            $('#receiveButton').removeClass('active');
+            $('#sendButton').removeClass('active');
+            $('#sentEmails').show();
+            $('#receiveEmails').hide();
+            $('#sendEmailForm').hide();
+            fetchSentEmails();   
+            // Implement logic to show sent emails
+        });
+        if (document.cookie.includes('email')) {
+                // If email cookie is set, fetch received emails
+                fetchReceivedEmails();
+            } else {
+                // If email cookie is not set, redirect to index.html
+                window.location.href = '/index.html';
+            }
+        });
+        $('#dateFilterForm').submit(function(event) {
+    event.preventDefault();
+    const startDate = $('#startDate').val();
+    const endDate = $('#endDate').val();
+    console.log(startDate,endDate);
+    const emailType = $('.active').attr('id') === 'sentButton' ? 'sent' : 'inbox';
+
+    $.post(`/emails/${emailType}/filter-by-date`, { startDate, endDate }, function(emails) {
+        $('#searchResults').empty(); // Clear previous results
+        if (emails.length === 0) {
+            // If no emails are found, display a message
+            $('#searchResults').html('<div class="email">نتیجه‌ای یافت نشد.</div>');
+        } else {
+            // Display filtered emails
+            emails.forEach(function(email) {
+                $('#searchResults').append(`
+                    <div class="email">
+                        <div class="sender">فرستنده: ${email.sender}</div>
+                        <div class="receiver">گیرنده: ${email.receiver}</div>
+                        <div class="subject">موضوع: ${email.subject}</div>
+                        <div class="body">${email.message}</div>
+                    </div>
+                `);
+            });
+        }
+        // Show the search drawer
+        $('#searchDrawer').show();
+    }).fail(function(xhr, status, error) {
+        console.error('Error filtering emails by date:', error);
+    });
+});
+$(document).ready(function() {
+            // Function to handle logout
+            $('#logoutButton').click(function() {
+                
+            
+                document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+              
+                window.location.href = '/index.html';
+            });
+
+            
+        });
+    </script>
+    
+</body>
+</html>
