@@ -42,6 +42,19 @@
             margin-bottom: 10px;
             width: 100%;
         }
+        h2 button {
+            background-color: #007bff;
+            border-radius: 4px;
+            padding: 10px 20px;
+            color: #fff;
+            transition: background-color 0.3s ease-in-out;
+            width: 10%;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        h2 button:hover {        
+            background-color: #ff0000;}
 
         .drawer button:hover {
             background-color: #0056b3;
@@ -150,7 +163,7 @@
 </head>
 <body>
     <h1>صندوق ورودی</h1>
-    
+    <h2> <button id="logoutButton">&#x274C; خروج</button></h2>
     <div class="drawer">
         <h2>انتخاب عملیات</h2>
         <form id="searchForm" class="search-form">
@@ -170,7 +183,7 @@
             <label for="endDate">تا تاریخ:</label>
             <input type="date" id="endDate" name="endDate">
             <button type="submit">&#128269;اعمال فیلتر</button>
-            <button id="logoutButton">&#x274C; خروج</button>
+           
         </form>
     </div>
     
@@ -391,6 +404,18 @@ $(document).ready(function() {
             });
 
             
+        });
+        $(document).ready(function() {
+            // Function to handle logout
+            $('#logoutButton').click(function() {
+                // Clear the cookie
+                document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                // Redirect to index.html
+                window.location.href = '/sign_in.html';
+            });
+
+            // Your existing JavaScript code
+            // ...
         });
     </script>
     
