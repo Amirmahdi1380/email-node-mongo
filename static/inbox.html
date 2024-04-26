@@ -345,8 +345,8 @@
                 // If email cookie is set, fetch received emails
                 fetchReceivedEmails();
             } else {
-                // If email cookie is not set, redirect to index.html
-                window.location.href = '/index.html';
+                // If email cookie is not set, redirect to sign_in.html
+                window.location.href = '/sign_in.html';
             }
         });
         $('#dateFilterForm').submit(function(event) {
@@ -387,7 +387,7 @@ $(document).ready(function() {
             
                 document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
               
-                window.location.href = '/index.html';
+                window.location.href = '/sign_in.html';
             });
 
             
