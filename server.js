@@ -2,13 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
 const emailRoutes = require('./routes/emailRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 var cookieParser = require('cookie-parser');
 const path = require('path');
 var fs = require('fs');
 const app = express();
 const port = 3000;
 app.use(cookieParser());
-app.set('view engine', 'ejs'); // Set the view engine to EJS
 app.set('public', './public'); 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,13 +24,12 @@ mongoose.connect('mongodb://localhost:27017/Email', {
 }).catch((error) => {
     console.error('Error connecting to MongoDB:', error);
 });
-
-// Use userRoutes for sign-up functionality
 app.use('/', userRoutes);
 app.use('/login', userRoutes);
 app.use('/signup', userRoutes);
 app.use('/emails', emailRoutes);
-//app.use('/projects', projectRoutes); 
+app.use('/admin', adminRoutes);
+
 app.use('/', function (req, res) {//\\firtsAJAX.html
     fs.readFile(__dirname +'/static'+req.url , function (err,data) {
       if (err) {

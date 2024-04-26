@@ -1,5 +1,3 @@
-// controllers/UserController.js
-
 const User = require('../models/User');
 
 class UserController {
@@ -16,8 +14,7 @@ class UserController {
             await user.connect();
             console.log('Creating user:', userData); 
             await user.createUser(userData);
-           // console.log('Creating user:', userData); 
-            // Redirect to the login page upon successful sign-up
+         
             res.redirect('/login.html');
         } catch (error) {
             console.error('Error signing up:', error);

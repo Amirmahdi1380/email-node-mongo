@@ -196,7 +196,7 @@
 
         <div id="searchResults"></div>
         <div class="emails" id="receiveEmails">
-            <!-- Received emails go here -->
+     
             <div class="email">
                 <div class="sender">شما هیچ ایمیلی ندارین</div>
                 <div class="receiver">شما هیچ ایمیلی ندارین</div>
@@ -216,7 +216,7 @@
             </form>
         </div>
         <div class="emails" id="sentEmails" style="display: none;">
-            <!-- Sent emails go here -->
+   
             <div class="email">
                 <div class="receiver">گیرنده: John Doe</div>
                 <div class="subject">موضوع: این یک ایمیل ارسالی تستی است</div>
@@ -234,10 +234,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Function to fetch received emails
+         
             function fetchReceivedEmails() {
                 $.get('/emails/inbox', function(emails) {
-                    $('#receiveEmails').empty(); // Clear previous emails
+                    $('#receiveEmails').empty(); 
                     emails.forEach(function(email) {
                         $('#receiveEmails').append(`
                             <div class="email">
@@ -252,7 +252,7 @@
             }
             function fetchSentEmails() {
                 $.get('/emails/sent-emails', function(emails) {
-                    $('#sentEmails').empty(); // Clear previous emails
+                    $('#sentEmails').empty(); 
                     emails.forEach(function(email) {
                         $('#sentEmails').append(`
                             <div class="email">
@@ -270,12 +270,12 @@
     const query = $('#searchQuery').val().trim();
     if (query !== '') {
         $.post('/emails/search', { query: query }, function(results) {
-            $('#searchResults').empty(); // Clear previous results
+            $('#searchResults').empty();
             if (results.length === 0) {
-                // If no search results are found, display a message
+             
                 $('#searchResults').html('<div class="email">نتیجه‌ای یافت نشد.</div>');
             } else {
-                // Display search results
+     
                 results.forEach(function(email) {
                     $('#searchResults').append(`
                         <div class="email">
@@ -287,7 +287,7 @@
                     `);
                 });
             }
-            // Show the search drawer
+
             $('#searchDrawer').show();
         }).fail(function(xhr, status, error) {
             console.error('Error:', error);
@@ -298,7 +298,7 @@
     $('#searchQuery').on('input', function() {
         const query = $(this).val().trim();
         if (query === '') {
-            // Clear search results and hide search drawer
+          
             $('#searchResults').empty();
             $('#searchDrawer').hide();
         }
@@ -308,8 +308,8 @@
                 var formData = $(this).serialize();
                 $.post('/emails/send', formData, function(response) {
                     alert('ایمیل با موفقیت ارسال شد');
-                    $('#composeForm')[0].reset(); // Clear the form
-                   // $('#receiveButton').click(); // Switch back to receive emails
+                    $('#composeForm')[0].reset(); 
+               
                 }).fail(function(xhr, status, error) {
                     console.log(error);
                     console.log(xhr.responseText);
@@ -318,21 +318,21 @@
             });
 
            
-            // Show receive emails by default
+            
             $('#sentEmails').addClass('active');
             fetchSentEmails();
 
             $('#receiveButton').addClass('active');
             fetchReceivedEmails();
             
-            // Switch between receiving and sending emails
+            
             $('#receiveButton').click(function() {
             $('#receiveButton').addClass('active');
             $('#sendButton').removeClass('active');
             $('#sentButton').removeClass('active');
             $('#receiveEmails').show();
             $('#sendEmailForm').hide();
-            $('#sentEmails').hide(); // Hide the sent emails section
+            $('#sentEmails').hide(); 
         });
 
         $('#sendButton').click(function() {
@@ -341,7 +341,7 @@
             $('#sentButton').removeClass('active');
             $('#sendEmailForm').show();
             $('#receiveEmails').hide();
-            $('#sentEmails').hide(); // Hide the sent emails section
+            $('#sentEmails').hide(); 
         });
 
         $('#sentButton').click(function() {
@@ -352,13 +352,13 @@
             $('#receiveEmails').hide();
             $('#sendEmailForm').hide();
             fetchSentEmails();   
-            // Implement logic to show sent emails
+
         });
         if (document.cookie.includes('email')) {
-                // If email cookie is set, fetch received emails
+           
                 fetchReceivedEmails();
             } else {
-                // If email cookie is not set, redirect to sign_in.html
+               
                 window.location.href = '/sign_in.html';
             }
         });
@@ -370,12 +370,12 @@
     const emailType = $('.active').attr('id') === 'sentButton' ? 'sent' : 'inbox';
 
     $.post(`/emails/${emailType}/filter-by-date`, { startDate, endDate }, function(emails) {
-        $('#searchResults').empty(); // Clear previous results
+        $('#searchResults').empty(); 
         if (emails.length === 0) {
-            // If no emails are found, display a message
+         
             $('#searchResults').html('<div class="email">نتیجه‌ای یافت نشد.</div>');
         } else {
-            // Display filtered emails
+          
             emails.forEach(function(email) {
                 $('#searchResults').append(`
                     <div class="email">
@@ -387,14 +387,14 @@
                 `);
             });
         }
-        // Show the search drawer
+      
         $('#searchDrawer').show();
     }).fail(function(xhr, status, error) {
         console.error('Error filtering emails by date:', error);
     });
 });
 $(document).ready(function() {
-            // Function to handle logout
+         
             $('#logoutButton').click(function() {
                 
             
@@ -406,16 +406,15 @@ $(document).ready(function() {
             
         });
         $(document).ready(function() {
-            // Function to handle logout
+           
             $('#logoutButton').click(function() {
-                // Clear the cookie
+         
                 document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                // Redirect to index.html
+         
                 window.location.href = '/sign_in.html';
             });
 
-            // Your existing JavaScript code
-            // ...
+        
         });
     </script>
     

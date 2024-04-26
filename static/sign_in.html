@@ -122,22 +122,22 @@ form {
     <script>
         $(document).ready(function() {
             $('#submitButton').click(function(event) {
-                // Prevent default form submission
+                
                 event.preventDefault();
                 var formData = $(this).closest('form').serialize();
-                // Submit form data via AJAX
+                
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:3000/signup', // Assuming this is the correct endpoint
+                    url: 'http://localhost:3000/signup', 
                     data: formData,
                     success: function(response) {
-                        // Redirect to the login page upon successful sign-up
-                        window.location.href = '/login.html'; // Change this URL if needed
+               
+                        window.location.href = '/login.html';
                     },
                     error: function(xhr, status, error) {
-                        // Handle error responses if needed
+                     
                         console.error(xhr.responseText);
-                      // window.location.href = '/login.html';
+                
                     }
                 });
             });

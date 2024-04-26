@@ -2,13 +2,13 @@ const Email = require('../models/Email');
 
 class EmailController {
     async sendEmail(req, res) {
-       // console.log(req.cookies.email);
+  
         const { receiver, subject, message } = req.body;
-        const sender = req.cookies.email; // Get sender email from cookie
+        const sender = req.cookies.email; 
         console.log(req.cookies.email);
         try {
             const email = new Email({ sender, receiver, subject, message });
-           // console.log(email);
+         
             await email.save();
             res.status(201).send('Email sent successfully!');
         } catch (error) {
@@ -18,14 +18,14 @@ class EmailController {
     }
 
     async getEmails(req, res) {
-        const receiver = req.cookies.email; // Get receiver email from cookie
+        const receiver = req.cookies.email; 
 
         try {
             const emails = await Email.aggregate([
                 { $match: { receiver } },
                 { $sort: { timestamp: -1 } }
             ]);
-          //  console.log(emails);
+   
             res.json(emails);
         } catch (error) {
             console.error('Error getting sent emails:', error);
@@ -33,14 +33,14 @@ class EmailController {
         }
     }
     async getSentEmails(req, res) {
-        const sender = req.cookies.email; // Get sender email from cookie
+        const sender = req.cookies.email;
     
         try {
             const emails = await Email.aggregate([
                 { $match: { sender } },
                 { $sort: { timestamp: -1 } }
             ]);
-           // console.log(emails);
+        
             res.json(emails);
         } catch (error) {
             console.error('Error getting sent emails:', error);

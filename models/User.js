@@ -1,4 +1,3 @@
-// models/User.js
 const { MongoClient } = require('mongodb');
 
 class User {
