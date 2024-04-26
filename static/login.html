@@ -5,66 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورود</title>
     <style>
-        body {
-            font-family: 'Tahoma', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 20px;
-        }
+           body {
+    font-family: 'Tahoma', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 350px; /* Adjusted maximum width */
+    width: 100%;
+}
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    width: calc(100% - 24px); /* Adjusted input width */
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    font-size: 16px;
+}
+
+.input-container label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    color: #777;
+    font-size: 16px;
+    transition: top 0.3s, font-size 0.3s, color 0.3s;
+}
+
+.input-container input:focus {
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+    top: 6px;
+    left: 8px;
+    font-size: 12px;
+    color: #555;
+}
 
         h1 {
-            text-align: center;
-            margin-bottom: 20px;
             color: #007bff;
+            font-size: 1.5em;
+            margin-bottom: 20px;
         }
 
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        label {
+            display: block;
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
-        input[type="email"],
-        input[type="password"] {
+        input {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin-bottom: 15px;
             border: 1px solid #ced4da;
-            border-radius: 4px;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            border-radius: 5px;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
 
-        input[type="email"]:focus,
-        input[type="password"]:focus {
+        input:focus {
             border-color: #007bff;
-            outline: 0;
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
 
-        button[type="submit"] {
+        button {
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 4px;
-            padding: 10px 20px;
+            border-radius: 5px;
+            padding: 12px 20px;
             cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
+            transition: background-color 0.3s;
             width: 100%;
         }
 
-        button[type="submit"]:hover {
+        button:hover {
             background-color: #0056b3;
+        }
+
+        .form-footer {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .form-footer a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .form-footer a:hover {
+            color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>ورود</h1>
+
     <form method="POST" action="/login">
-        <input type="email" name="email" placeholder="ایمیل" required>
-        <input type="password" name="password" placeholder="رمز عبور" required>
+        <h1>ورود</h1>
+        <div class="input-container">
+            <input type="email" name="email"  required>
+            <label for="email">ایمیل</label>
+        </div>
+       
+        <div class="input-container">
+            <input type="password" name="password" class="input-container" required>
+            <label for="password">رمز عبور</label>
+        </div>
+        
         <button type="submit">ورود</button>
     </form>
 </body>
