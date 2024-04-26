@@ -2,10 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
 const emailRoutes = require('./routes/emailRoutes');
-const adminRoutes = require('./routes/adminRoutes');
 var cookieParser = require('cookie-parser');
 const path = require('path');
-const projectRoutes = require('./routes/projectRoutes');
 var fs = require('fs');
 const app = express();
 const port = 3000;
@@ -28,7 +26,6 @@ mongoose.connect('mongodb://localhost:27017/Email', {
 });
 
 // Use userRoutes for sign-up functionality
-app.use('/', adminRoutes);
 app.use('/', userRoutes);
 app.use('/login', userRoutes);
 app.use('/signup', userRoutes);
